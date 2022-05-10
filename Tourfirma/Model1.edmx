@@ -1,0 +1,645 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище TourfirmModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="Number_Admin" />
+          </Key>
+          <Property Name="Number_Admin" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="50" />
+          <Property Name="Admin_Login" Type="varchar" MaxLength="50" />
+          <Property Name="Admin_Password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="Number_city" />
+          </Key>
+          <Property Name="Number_city" Type="int" Nullable="false" />
+          <Property Name="Name_city" Type="varchar" MaxLength="50" />
+          <Property Name="Country_of_city" Type="varchar" MaxLength="50" />
+          <Property Name="Number_country" Type="int" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="Number_client" />
+          </Key>
+          <Property Name="Number_client" Type="int" Nullable="false" />
+          <Property Name="Surname" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Patronymic" Type="varchar" MaxLength="50" />
+          <Property Name="Date_of_birth" Type="date" />
+          <Property Name="Address" Type="varchar(max)" />
+          <Property Name="Telephone_number" Type="varchar" MaxLength="20" />
+          <Property Name="Passport_series" Type="int" />
+          <Property Name="Passport_number" Type="int" />
+          <Property Name="Client_login" Type="varchar" MaxLength="50" />
+          <Property Name="Client_password" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="Number_country" />
+          </Key>
+          <Property Name="Number_country" Type="int" Nullable="false" />
+          <Property Name="Name_country" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Hotels">
+          <Key>
+            <PropertyRef Name="Number_hotel" />
+          </Key>
+          <Property Name="Number_hotel" Type="int" Nullable="false" />
+          <Property Name="Name_of_hotel" Type="varchar" MaxLength="100" />
+          <Property Name="Number_stars" Type="int" />
+          <Property Name="Number_city" Type="int" />
+          <Property Name="Price_per_night" Type="money" />
+          <Property Name="Image_hotels" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="Number_sale" />
+          </Key>
+          <Property Name="Number_sale" Type="int" Nullable="false" />
+          <Property Name="Number_client" Type="int" />
+          <Property Name="Price" Type="money" />
+          <Property Name="Number_tour" Type="int" />
+          <Property Name="Date_sale" Type="date" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Tours">
+          <Key>
+            <PropertyRef Name="Number_tour" />
+          </Key>
+          <Property Name="Number_tour" Type="int" Nullable="false" />
+          <Property Name="Name_tour" Type="varchar" MaxLength="50" />
+          <Property Name="Start_date" Type="date" />
+          <Property Name="End_date" Type="date" />
+          <Property Name="Type_tour" Type="varchar" MaxLength="50" />
+          <Property Name="Type_food" Type="varchar" MaxLength="50" />
+          <Property Name="Number_hotel" Type="int" />
+          <Property Name="Image_tour" Type="varbinary(max)" />
+          <Property Name="Price_tour" Type="money" />
+          <Property Name="Left" Type="int" />
+        </EntityType>
+        <EntityType Name="Type_food">
+          <Key>
+            <PropertyRef Name="Type_Food" />
+          </Key>
+          <Property Name="Type_Food" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Type_tours">
+          <Key>
+            <PropertyRef Name="Тype_tour1" />
+          </Key>
+          <Property Name="Тype_tour1" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Cities_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Number_country" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="Number_country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hotels_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Number_city" />
+            </Principal>
+            <Dependent Role="Hotels">
+              <PropertyRef Name="Number_city" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sales_Clients">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="0..1" />
+          <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="Number_client" />
+            </Principal>
+            <Dependent Role="Sales">
+              <PropertyRef Name="Number_client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sales_Tours">
+          <End Role="Tours" Type="Self.Tours" Multiplicity="0..1" />
+          <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tours">
+              <PropertyRef Name="Number_tour" />
+            </Principal>
+            <Dependent Role="Sales">
+              <PropertyRef Name="Number_tour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tours_Hotels">
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="0..1" />
+          <End Role="Tours" Type="Self.Tours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="Number_hotel" />
+            </Principal>
+            <Dependent Role="Tours">
+              <PropertyRef Name="Number_hotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище TourfirmModelContainer">
+          <EntitySet Name="Admins" EntityType="Self.Admins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sales" EntityType="Self.Sales" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tours" EntityType="Self.Tours" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type_food" EntityType="Self.Type_food" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type_tours" EntityType="Self.Type_tours" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hotels_Cities" Association="Self.FK_Hotels_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Hotels" EntitySet="Hotels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sales_Clients" Association="Self.FK_Sales_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Sales" EntitySet="Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sales_Tours" Association="Self.FK_Sales_Tours">
+            <End Role="Tours" EntitySet="Tours" />
+            <End Role="Sales" EntitySet="Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tours_Hotels" Association="Self.FK_Tours_Hotels">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Tours" EntitySet="Tours" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TourfirmModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admins">
+          <Key>
+            <PropertyRef Name="Number_Admin" />
+          </Key>
+          <Property Name="Number_Admin" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Admin_Login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Admin_Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="Number_city" />
+          </Key>
+          <Property Name="Number_city" Type="Int32" Nullable="false" />
+          <Property Name="Name_city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country_of_city" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Number_country" Type="Int32" />
+          <NavigationProperty Name="Countries" Relationship="Self.FK_Cities_Countries" FromRole="Cities" ToRole="Countries" />
+          <NavigationProperty Name="Hotels" Relationship="Self.FK_Hotels_Cities" FromRole="Cities" ToRole="Hotels" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="Number_client" />
+          </Key>
+          <Property Name="Number_client" Type="Int32" Nullable="false" />
+          <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Date_of_birth" Type="DateTime" Precision="0" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Telephone_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Passport_series" Type="Int32" />
+          <Property Name="Passport_number" Type="Int32" />
+          <Property Name="Client_login" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Client_password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Sales" Relationship="Self.FK_Sales_Clients" FromRole="Clients" ToRole="Sales" />
+        </EntityType>
+        <EntityType Name="Countries">
+          <Key>
+            <PropertyRef Name="Number_country" />
+          </Key>
+          <Property Name="Number_country" Type="Int32" Nullable="false" />
+          <Property Name="Name_country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_Cities_Countries" FromRole="Countries" ToRole="Cities" />
+        </EntityType>
+        <EntityType Name="Hotels">
+          <Key>
+            <PropertyRef Name="Number_hotel" />
+          </Key>
+          <Property Name="Number_hotel" Type="Int32" Nullable="false" />
+          <Property Name="Name_of_hotel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Number_stars" Type="Int32" />
+          <Property Name="Number_city" Type="Int32" />
+          <Property Name="Price_per_night" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Image_hotels" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.FK_Hotels_Cities" FromRole="Hotels" ToRole="Cities" />
+          <NavigationProperty Name="Tours" Relationship="Self.FK_Tours_Hotels" FromRole="Hotels" ToRole="Tours" />
+        </EntityType>
+        <EntityType Name="Sales">
+          <Key>
+            <PropertyRef Name="Number_sale" />
+          </Key>
+          <Property Name="Number_sale" Type="Int32" Nullable="false" />
+          <Property Name="Number_client" Type="Int32" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Number_tour" Type="Int32" />
+          <Property Name="Date_sale" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK_Sales_Clients" FromRole="Sales" ToRole="Clients" />
+          <NavigationProperty Name="Tours" Relationship="Self.FK_Sales_Tours" FromRole="Sales" ToRole="Tours" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Tours">
+          <Key>
+            <PropertyRef Name="Number_tour" />
+          </Key>
+          <Property Name="Number_tour" Type="Int32" Nullable="false" />
+          <Property Name="Name_tour" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Start_date" Type="DateTime" Precision="0" />
+          <Property Name="End_date" Type="DateTime" Precision="0" />
+          <Property Name="Type_tour" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Type_food" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Number_hotel" Type="Int32" />
+          <Property Name="Image_tour" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Price_tour" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="Left" Type="Int32" />
+          <NavigationProperty Name="Hotels" Relationship="Self.FK_Tours_Hotels" FromRole="Tours" ToRole="Hotels" />
+          <NavigationProperty Name="Sales" Relationship="Self.FK_Sales_Tours" FromRole="Tours" ToRole="Sales" />
+        </EntityType>
+        <EntityType Name="Type_food">
+          <Key>
+            <PropertyRef Name="Type_Food1" />
+          </Key>
+          <Property Name="Type_Food1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Type_tours">
+          <Key>
+            <PropertyRef Name="Тype_tour1" />
+          </Key>
+          <Property Name="Тype_tour1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Cities_Countries">
+          <End Role="Countries" Type="Self.Countries" Multiplicity="0..1" />
+          <End Role="Cities" Type="Self.Cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Countries">
+              <PropertyRef Name="Number_country" />
+            </Principal>
+            <Dependent Role="Cities">
+              <PropertyRef Name="Number_country" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Hotels_Cities">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="Number_city" />
+            </Principal>
+            <Dependent Role="Hotels">
+              <PropertyRef Name="Number_city" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sales_Clients">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="0..1" />
+          <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="Number_client" />
+            </Principal>
+            <Dependent Role="Sales">
+              <PropertyRef Name="Number_client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Tours_Hotels">
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="0..1" />
+          <End Role="Tours" Type="Self.Tours" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="Number_hotel" />
+            </Principal>
+            <Dependent Role="Tours">
+              <PropertyRef Name="Number_hotel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Sales_Tours">
+          <End Role="Tours" Type="Self.Tours" Multiplicity="0..1" />
+          <End Role="Sales" Type="Self.Sales" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Tours">
+              <PropertyRef Name="Number_tour" />
+            </Principal>
+            <Dependent Role="Sales">
+              <PropertyRef Name="Number_tour" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TourfirmEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admins" />
+          <EntitySet Name="Cities" EntityType="Self.Cities" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" />
+          <EntitySet Name="Countries" EntityType="Self.Countries" />
+          <EntitySet Name="Hotels" EntityType="Self.Hotels" />
+          <EntitySet Name="Sales" EntityType="Self.Sales" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Tours" EntityType="Self.Tours" />
+          <EntitySet Name="Type_food" EntityType="Self.Type_food" />
+          <EntitySet Name="Type_tours" EntityType="Self.Type_tours" />
+          <AssociationSet Name="FK_Cities_Countries" Association="Self.FK_Cities_Countries">
+            <End Role="Countries" EntitySet="Countries" />
+            <End Role="Cities" EntitySet="Cities" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Hotels_Cities" Association="Self.FK_Hotels_Cities">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Hotels" EntitySet="Hotels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sales_Clients" Association="Self.FK_Sales_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="Sales" EntitySet="Sales" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Tours_Hotels" Association="Self.FK_Tours_Hotels">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Tours" EntitySet="Tours" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Sales_Tours" Association="Self.FK_Sales_Tours">
+            <End Role="Tours" EntitySet="Tours" />
+            <End Role="Sales" EntitySet="Sales" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(TourfirmModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(TourfirmModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище TourfirmModelContainer" CdmEntityContainer="TourfirmEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="TourfirmModel.Admins">
+              <MappingFragment StoreEntitySet="Admins">
+                <ScalarProperty Name="Number_Admin" ColumnName="Number_Admin" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Admin_Login" ColumnName="Admin_Login" />
+                <ScalarProperty Name="Admin_Password" ColumnName="Admin_Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="TourfirmModel.Cities">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="Number_city" ColumnName="Number_city" />
+                <ScalarProperty Name="Name_city" ColumnName="Name_city" />
+                <ScalarProperty Name="Country_of_city" ColumnName="Country_of_city" />
+                <ScalarProperty Name="Number_country" ColumnName="Number_country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="TourfirmModel.Clients">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="Number_client" ColumnName="Number_client" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="Date_of_birth" ColumnName="Date_of_birth" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Telephone_number" ColumnName="Telephone_number" />
+                <ScalarProperty Name="Passport_series" ColumnName="Passport_series" />
+                <ScalarProperty Name="Passport_number" ColumnName="Passport_number" />
+                <ScalarProperty Name="Client_login" ColumnName="Client_login" />
+                <ScalarProperty Name="Client_password" ColumnName="Client_password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Countries">
+            <EntityTypeMapping TypeName="TourfirmModel.Countries">
+              <MappingFragment StoreEntitySet="Countries">
+                <ScalarProperty Name="Number_country" ColumnName="Number_country" />
+                <ScalarProperty Name="Name_country" ColumnName="Name_country" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hotels">
+            <EntityTypeMapping TypeName="TourfirmModel.Hotels">
+              <MappingFragment StoreEntitySet="Hotels">
+                <ScalarProperty Name="Number_hotel" ColumnName="Number_hotel" />
+                <ScalarProperty Name="Name_of_hotel" ColumnName="Name_of_hotel" />
+                <ScalarProperty Name="Number_stars" ColumnName="Number_stars" />
+                <ScalarProperty Name="Number_city" ColumnName="Number_city" />
+                <ScalarProperty Name="Price_per_night" ColumnName="Price_per_night" />
+                <ScalarProperty Name="Image_hotels" ColumnName="Image_hotels" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sales">
+            <EntityTypeMapping TypeName="TourfirmModel.Sales">
+              <MappingFragment StoreEntitySet="Sales">
+                <ScalarProperty Name="Number_sale" ColumnName="Number_sale" />
+                <ScalarProperty Name="Number_client" ColumnName="Number_client" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Number_tour" ColumnName="Number_tour" />
+                <ScalarProperty Name="Date_sale" ColumnName="Date_sale" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TourfirmModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tours">
+            <EntityTypeMapping TypeName="TourfirmModel.Tours">
+              <MappingFragment StoreEntitySet="Tours">
+                <ScalarProperty Name="Number_tour" ColumnName="Number_tour" />
+                <ScalarProperty Name="Name_tour" ColumnName="Name_tour" />
+                <ScalarProperty Name="Start_date" ColumnName="Start_date" />
+                <ScalarProperty Name="End_date" ColumnName="End_date" />
+                <ScalarProperty Name="Type_tour" ColumnName="Type_tour" />
+                <ScalarProperty Name="Type_food" ColumnName="Type_food" />
+                <ScalarProperty Name="Number_hotel" ColumnName="Number_hotel" />
+                <ScalarProperty Name="Image_tour" ColumnName="Image_tour" />
+                <ScalarProperty Name="Price_tour" ColumnName="Price_tour" />
+                <ScalarProperty Name="Left" ColumnName="Left" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type_food">
+            <EntityTypeMapping TypeName="TourfirmModel.Type_food">
+              <MappingFragment StoreEntitySet="Type_food">
+                <ScalarProperty Name="Type_Food1" ColumnName="Type_Food" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type_tours">
+            <EntityTypeMapping TypeName="TourfirmModel.Type_tours">
+              <MappingFragment StoreEntitySet="Type_tours">
+                <ScalarProperty Name="Тype_tour1" ColumnName="Тype_tour1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище TourfirmModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище TourfirmModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище TourfirmModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище TourfirmModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TourfirmModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище TourfirmModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TourfirmModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище TourfirmModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище TourfirmModel.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

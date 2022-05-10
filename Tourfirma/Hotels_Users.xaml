@@ -1,0 +1,49 @@
+﻿<Page x:Class="Tourfirma.Hotels_Users"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Tourfirma"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Hotels_Users">
+
+
+    <Grid>
+        <Button Content="Выход" FontSize="20" HorizontalAlignment="Left" Margin="707,10,0,0" Name="BtnHome" Click="BtnHome_Click" VerticalAlignment="Top" Width="75"/>
+        <ListView Background="LightGoldenrodYellow" Name="LViewHotels" Margin="88,45,93,0.6">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="20" Width="400">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Image Width="300" Grid.Row="1" Stretch="UniformToFill" HorizontalAlignment="Center" Margin="5">
+                            <Image.Source>
+                                <Binding Path="Image_hotels">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>D:/kk/no_photo.jpg</ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                        <TextBlock Text="{Binding Name_of_hotel}" FontFamily="Impact" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Width="300" HorizontalAlignment="Center" Margin="5 5" FontWeight="Bold" FontSize="32" Grid.Row="0"></TextBlock>
+                        <TextBlock Text="{Binding Price_per_night, StringFormat={}{0:N2} РУБ}" FontFamily="Timew New Roman" Grid.Row="3" FontSize="22" FontWeight="ExtraLight" HorizontalAlignment="Left"></TextBlock>
+                        <TextBlock Text="{Binding Number_stars, StringFormat={}{0:N0} Звезд}" FontFamily="Timew New Roman" Grid.Row="3" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"></TextBlock>
+                        <TextBlock Text="{Binding Cities.Name_city}" FontFamily="Timew New Roman" Grid.Row="4" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"></TextBlock>
+
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Frame x:Name="MainFrame" HorizontalAlignment="Left" Height="450" Margin="0,0,0,-0.4" VerticalAlignment="Top" Width="800" Navigated="MainFrame_Navigated"/>
+        <Button Content="Купить" HorizontalAlignment="Left" Margin="707,331,0,0" VerticalAlignment="Top" Width="93" Height="40" Click="BtnSave_Click"/>
+        <Button Content="Поиск" HorizontalAlignment="Left" Click="BtnSearch_Click" Height="53" Margin="121,397,0,-0.4" VerticalAlignment="Top" Width="137"/>
+        <TextBox HorizontalAlignment="Left" Height="53" x:Name="Search" Margin="258,397,0,-0.4" TextWrapping="Wrap" VerticalAlignment="Top" Width="214"/>
+    </Grid>
+
+</Page>
